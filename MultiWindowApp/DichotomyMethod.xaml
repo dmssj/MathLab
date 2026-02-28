@@ -1,0 +1,32 @@
+﻿<Window x:Class="MultiWindowApp.DichotomyMethod"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="600">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Label Content="f(x)=" VerticalAlignment="Center"/>
+            <TextBox x:Name="FunctionTextBox" Width="200" Margin="5,0"/>
+            <Label Content="a" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxA" Width="50" Margin="5,0"/>
+            <Label Content="b" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxB" Width="50" Margin="5,0"/>
+            <Label Content="ε" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxEpsilon" Width="50" Margin="5,0"/>
+            <Button x:Name="CalculateButton" Content="Вычислить" Margin="10,0" Click="CalculateButton_Click"/>
+        </StackPanel>
+
+        <TextBlock x:Name="ResultTextBlock" Grid.Row="1" TextWrapping="Wrap" Margin="0,0,0,10"/>
+
+        <oxy:PlotView x:Name="PlotView" Grid.Row="2"/>
+    </Grid>
+</Window>

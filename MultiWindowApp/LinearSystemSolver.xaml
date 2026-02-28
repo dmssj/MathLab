@@ -1,0 +1,45 @@
+﻿<Window x:Class="MultiWindowApp.LinearSystemSolver"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Height="400" Width="780">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <Label Content="Размер матрицы:" VerticalAlignment="Center"/>
+            <TextBox x:Name="SizeTextBox" Width="50" Margin="5"/>
+            <Button x:Name="CreateMatrixButton" Content="Создать матрицу" Click="CreateMatrixButton_Click"/>
+            <Button x:Name="RandomGenerationButton" Content="Случайные данные" Margin="10,0,0,0" Click="RandomGenerationButton_Click"/>
+            <Button x:Name="ImportFromCsvButton" Content="Импорт CSV" Margin="10,0,0,0" Click="ImportFromCsvButton_Click"/>
+            <Button x:Name="ExportToCsvButton" Content="Экспорт CSV" Margin="10,0,0,0" Click="ExportToCsvButton_Click"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid x:Name="MatrixDataGrid" Grid.Column="0" AutoGenerateColumns="True" Margin="0,0,5,0"/>
+            <DataGrid x:Name="VectorDataGrid" Grid.Column="2" AutoGenerateColumns="True" Margin="5,0,0,0"/>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+            <Button x:Name="GaussMethodButton" Content="Метод Гаусса" Click="GaussMethodButton_Click" Margin="0,0,5,0"/>
+            <Button x:Name="JordanGaussMethodButton" Content="Метод Жордана-Гаусса" Click="JordanGaussMethodButton_Click" Margin="5,0,5,0"/>
+            <Button x:Name="CramerMethodButton" Content="Метод Крамера" Click="CramerMethodButton_Click" Margin="5,0,5,0"/>
+            <TextBlock x:Name="TimeInfoTextBlock" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="ResultXDataGrid" Grid.Row="3" AutoGenerateColumns="True" Margin="0,10,0,0"/>
+    </Grid>
+</Window>
