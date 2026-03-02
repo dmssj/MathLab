@@ -87,11 +87,28 @@ namespace MultiWindowApp
                     return;
                 }
 
+                double fa = CalculateFunction(a, functionText);
+                double fb = CalculateFunction(b, functionText);
+
+                if (fa * fb > 0)
+                {
+                    MessageBox.Show("На концах интервала нет смены знака. Метод дихотомии неприменим.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                double root = DichotomyMethodFunc(a, b, epsilon, functionText);
                 var roots = FindAllRoots(a, b, epsilon, functionText);
 
-                PlotFunction(a, b, functionText, roots);
+                // строим график только с одним корнем
+                PlotFunction(a, b, functionText, root);
+
+                // вывод
+                ResultTextBlock.Text = $"✓ Найден корень:\n\nx = {root:0.########}";
+                ResultTextBlock.Foreground = Brushes.Green;
 
                 if (roots.Count == 0)
+
                 {
                     ResultTextBlock.Text = "❌ На заданном интервале корней не найдено";
                     ResultTextBlock.Foreground = System.Windows.Media.Brushes.Red;
@@ -100,7 +117,8 @@ namespace MultiWindowApp
                 {
                     // Фильтруем и округляем корни
                     var displayRoots = roots
-                .Where(r => {
+                .Where(r =>
+                {
                     try
                     {
                         double fr = CalculateFunction(r, functionText);
@@ -113,20 +131,17 @@ namespace MultiWindowApp
                 })
                 .Select(r => Math.Abs(r) < 1e-10 ? 0 : Math.Round(r, 8)) // Используем маленькое значение для округления к 0
                 .Where(r => !double.IsInfinity(r) && !double.IsNaN(r)) // Убираем бесконечности и NaN
-                .Distinct()
                 .OrderBy(r => r)
                 .ToList();
 
-                    ResultTextBlock.Text = $"✓ Найдено корней: {displayRoots.Count}\n\n";
 
-                    for (int i = 0; i < displayRoots.Count; i++)
+                    for (int i = displayRoots.Count - 1; i > 0; i--)
                     {
-                        double root = displayRoots[i];
-                        string rootStr = root == 0 ? "0" : $"{root:0.########}";
-                        ResultTextBlock.Text += $"Корень {i + 1}: x = {rootStr}\n";
+                        if (Math.Abs(displayRoots[i] - displayRoots[i - 1]) < epsilon * 10)
+                        {
+                            displayRoots.RemoveAt(i);
+                        }
                     }
-
-                    ResultTextBlock.Foreground = System.Windows.Media.Brushes.Green;
                 }
             }
             catch (Exception ex)
@@ -136,7 +151,7 @@ namespace MultiWindowApp
             }
         }
 
-        private void PlotFunction(double a, double b, string functionText, List<double> roots)
+        private void PlotFunction(double a, double b, string functionText, double root)
         {
             try
             {
@@ -210,23 +225,15 @@ namespace MultiWindowApp
                 plotModel.Series.Add(zeroLine);
 
                 // Корни - красные точки 
-                if (roots.Count > 0)
+                var rootSeries = new ScatterSeries
                 {
-                    var rootsSeries = new ScatterSeries
-                    {
-                        MarkerType = MarkerType.Circle,
-                        MarkerSize = 5,
-                        MarkerFill = OxyColors.Red,
-                        MarkerStroke = OxyColors.DarkRed,
-                        MarkerStrokeThickness = 1
-                    };
+                    MarkerType = MarkerType.Circle,
+                    MarkerSize = 6,
+                    MarkerFill = OxyColors.Red
+                };
 
-                    foreach (double root in roots)
-                    {
-                        rootsSeries.Points.Add(new ScatterPoint(root, 0));
-                    }
-                    plotModel.Series.Add(rootsSeries);
-                }
+                rootSeries.Points.Add(new ScatterPoint(root, 0));
+                plotModel.Series.Add(rootSeries);
 
                 PlotView.Model = plotModel;
             }
@@ -276,7 +283,7 @@ namespace MultiWindowApp
                         double fx = CalculateFunction(x, functionText);
                         if (Math.Abs(fx) < epsilon * 10) // Используем epsilon для проверки
                         {
-                            if (!IsRootAlreadyFound(roots, x, epsilon * 100))
+                            if (!IsRootAlreadyFound(roots, x, epsilon))
                                 roots.Add(x);
                         }
                     }
