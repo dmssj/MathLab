@@ -18,8 +18,6 @@
             <TextBox x:Name="SizeTextBox" Width="50" Margin="5"/>
             <Button x:Name="CreateMatrixButton" Content="Создать матрицу" Click="CreateMatrixButton_Click"/>
             <Button x:Name="RandomGenerationButton" Content="Случайные данные" Margin="10,0,0,0" Click="RandomGenerationButton_Click"/>
-            <Button x:Name="ImportFromCsvButton" Content="Импорт CSV" Margin="10,0,0,0" Click="ImportFromCsvButton_Click"/>
-            <Button x:Name="ExportToCsvButton" Content="Экспорт CSV" Margin="10,0,0,0" Click="ExportToCsvButton_Click"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
