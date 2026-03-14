@@ -1,0 +1,97 @@
+<Window x:Class="MultiWindowApp.GoldenSectionMethod"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="Метод золотого сечения"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель ввода -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,10">
+            <Label Content="f(x)=" VerticalAlignment="Center"/>
+            <TextBox x:Name="FunctionTextBox"
+                     Width="220"
+                     Margin="5,0"/>
+
+            <Label Content="a" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxA"
+                     Width="60"
+                     Margin="5,0"/>
+
+            <Label Content="b" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxB"
+                     Width="60"
+                     Margin="5,0"/>
+
+            <Label Content="ε" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBox x:Name="TextBoxEpsilon"
+                     Width="60"
+                     Margin="5,0"/>
+
+            <Button x:Name="CalculateButton"
+                    Content="Вычислить"
+                    Margin="10,0"
+                    Click="CalculateButton_Click"/>
+            <Button Content="Тестовая функция"
+                    Margin="10,0,0,0"
+                    Click="TestFunctionButton_Click"/>
+        </StackPanel>
+
+        <!-- Выбор типа поиска -->
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,10">
+            <Label Content="Искать:" VerticalAlignment="Center"/>
+            <RadioButton x:Name="MinRadioButton"
+                         Content="Минимум"
+                         IsChecked="True"
+                         Margin="10,0,0,0"
+                         VerticalAlignment="Center"/>
+            <RadioButton x:Name="MaxRadioButton"
+                         Content="Максимум"
+                         Margin="10,0,0,0"
+                         VerticalAlignment="Center"/>
+            <RadioButton x:Name="RootRadioButton"
+                         Content="Корни"
+                         Margin="10,0,0,0"
+                         VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Текст с результатами -->
+        <TextBlock x:Name="ResultTextBlock"
+                   Grid.Row="2"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,10"/>
+
+        <!-- График -->
+        <oxy:PlotView x:Name="PlotView"
+                      Grid.Row="3"
+                      Margin="0,0,0,10"/>
+
+        <!-- Нижняя панель с кнопкой Назад -->
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Назад"
+                    Width="80"
+                    Click="BackButton_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
+

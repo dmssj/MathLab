@@ -1,0 +1,130 @@
+<Window x:Class="MultiWindowApp.CoordinateDescentMethod"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="Метод покоординатного спуска"
+        Height="500"
+        Width="900"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,8">
+            <Label Content="f(x,y,z)=" VerticalAlignment="Center" />
+            <TextBox x:Name="FunctionTextBox"
+                     Width="260"
+                     Margin="5,0" />
+
+            <Label Content="x₀" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="TextBoxX0"
+                     Width="60"
+                     Margin="5,0" />
+
+            <Label Content="y₀" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="TextBoxY0"
+                     Width="60"
+                     Margin="5,0" />
+
+            <Label Content="z₀" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="TextBoxZ0"
+                     Width="60"
+                     Margin="5,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,8">
+            <Label Content="ε" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxEpsilon"
+                     Width="60"
+                     Margin="5,0" />
+
+            <Label Content="Макс. итераций" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="TextBoxMaxIterations"
+                     Width="80"
+                     Margin="5,0" />
+
+            <Label Content="Шаг спуска" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="TextBoxStepSize"
+                     Width="80"
+                     Margin="5,0" />
+
+            <Button x:Name="CalculateButton"
+                    Content="Выполнить поиск минимума"
+                    Margin="10,0,0,0"
+                    Click="CalculateButton_Click" />
+            <Button Content="Тестовая функция"
+                    Margin="10,0,0,0"
+                    Click="TestFunctionButton_Click" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,8">
+            <Label Content="x ∈ [" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxXmin"
+                     Width="60"
+                     Margin="5,0" />
+            <Label Content=";" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxXmax"
+                     Width="60"
+                     Margin="5,0" />
+            <Label Content="]" VerticalAlignment="Center" Margin="0,0,10,0" />
+
+            <Label Content="y ∈ [" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxYmin"
+                     Width="60"
+                     Margin="5,0" />
+            <Label Content=";" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxYmax"
+                     Width="60"
+                     Margin="5,0" />
+            <Label Content="]" VerticalAlignment="Center" Margin="0,0,10,0" />
+
+            <Label Content="z ∈ [" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxZmin"
+                     Width="60"
+                     Margin="5,0" />
+            <Label Content=";" VerticalAlignment="Center" />
+            <TextBox x:Name="TextBoxZmax"
+                     Width="60"
+                     Margin="5,0" />
+            <Label Content="]" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="3"
+                    Orientation="Vertical"
+                    Margin="0,0,0,8">
+            <TextBlock x:Name="ProgressTextBlock"
+                       Margin="0,0,0,4"
+                       Foreground="DarkSlateGray" />
+            <TextBlock x:Name="ResultTextBlock"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+
+        <oxy:PlotView x:Name="PlotView"
+                      Grid.Row="4"
+                      Margin="0,0,0,8" />
+
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Назад"
+                    Width="80"
+                    Click="BackButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
+

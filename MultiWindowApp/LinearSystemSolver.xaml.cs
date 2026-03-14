@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace MultiWindowApp
 {
-    /// <summary>
-    /// Логика взаимодействия для LinearSystemSolver.xaml
-    /// </summary>
     public partial class LinearSystemSolver : Window
     {
         public LinearSystemSolver()
@@ -282,7 +279,6 @@ namespace MultiWindowApp
                     return;
                 }
 
-                // Показываем прогресс-бар
                 ResultXDataGrid.Visibility = Visibility.Visible;
                 TimeInfoTextBlock.Text = $"{methodName}: вычисления...";
 
@@ -296,8 +292,6 @@ namespace MultiWindowApp
 
                 watch.Stop();
 
-                // Скрываем прогресс-бар
-                ResultXDataGrid.Visibility = Visibility.Collapsed;
                 TimeInfoTextBlock.Text = $"{methodName}: выполнено за {watch.ElapsedMilliseconds} мс";
                 DisplayResult(result);
 
@@ -305,7 +299,6 @@ namespace MultiWindowApp
             }
             catch (Exception ex)
             {
-                ResultXDataGrid.Visibility = Visibility.Collapsed;
                 TimeInfoTextBlock.Text = $"{methodName}: ошибка";
                 MessageBox.Show($"Ошибка в {methodName}: {ex.Message}", "Ошибка");
             }
@@ -584,6 +577,37 @@ namespace MultiWindowApp
                 for (int col = 0; col < MatrixSize; ++col)
                 {
                     matrixTable.Rows[row][col] = Math.Round(rand.NextDouble() * 20 - 10, 2);
+                }
+            }
+        }
+
+        private void TestFunctionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MatrixSize = 3;
+            SizeTextBox.Text = "3";
+            CreateMatrix();
+
+            if (MatrixDataGrid.ItemsSource is DataView matrixView &&
+                VectorDataGrid.ItemsSource is DataView vectorView)
+            {
+                DataTable matrixTable = matrixView.Table;
+                DataTable vectorTable = vectorView.Table;
+
+                double[,] a = new double[,]
+                {
+                    { 3, 1, -1 },
+                    { 2, 4, 1 },
+                    { 1, -1, 5 }
+                };
+                double[] b = new double[] { 4, 1, 1 };
+
+                for (int i = 0; i < 3; i++)
+                {
+                    vectorTable.Rows[i][0] = b[i];
+                    for (int j = 0; j < 3; j++)
+                    {
+                        matrixTable.Rows[i][j] = a[i, j];
+                    }
                 }
             }
         }

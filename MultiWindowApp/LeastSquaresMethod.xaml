@@ -1,0 +1,185 @@
+<Window x:Class="MultiWindowApp.LeastSquaresMethod"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Метод наименьших квадратов"
+        Height="550"
+        Width="950"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0"
+                        Orientation="Vertical"
+                        Margin="0,0,8,0">
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,4">
+                    <Button x:Name="GenerateDataButton"
+                            Content="Тестовая функция"
+                            Margin="0,0,6,0"
+                            Width="170" />
+                    <Button x:Name="ClearButton"
+                            Content="Очистить"
+                            Width="90" />
+                </StackPanel>
+
+                <Grid Margin="0,0,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0"
+                                Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,2">
+                            <Label Content="Мин X:" Width="70" />
+                            <TextBox x:Name="MinXTextBox"
+                                     Width="70"
+                                     Margin="4,0" />
+                            <Label Content="Макс X:" Width="70" />
+                            <TextBox x:Name="MaxXTextBox"
+                                     Width="70"
+                                     Margin="4,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Мин баз. Y:" Width="70" />
+                            <TextBox x:Name="MinYBaseTextBox"
+                                     Width="70"
+                                     Margin="4,0" />
+                            <Label Content="Макс баз. Y:" Width="70" />
+                            <TextBox x:Name="MaxYBaseTextBox"
+                                     Width="70"
+                                     Margin="4,0" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,2">
+                            <Label Content="Кол-во точек:" Width="90" />
+                            <TextBox x:Name="PointsCountTextBox"
+                                     Width="70"
+                                     Margin="4,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Уровень шума:" Width="90" />
+                            <TextBox x:Name="NoiseLevelTextBox"
+                                     Width="70"
+                                     Margin="4,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <DataGrid x:Name="DataGridPoints"
+                          AutoGenerateColumns="True"
+                          Height="260"
+                          CanUserAddRows="True"
+                          CanUserDeleteRows="True"
+                          Margin="0,2,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Vertical">
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,4">
+                    <Button x:Name="CalculateButton"
+                            Content="Рассчитать аппроксимацию"
+                            Width="180"
+                            Margin="0,0,6,0" />
+                    <Button x:Name="BackButton"
+                            Content="Назад"
+                            Width="90" />
+                </StackPanel>
+
+                <Grid Margin="0,0,0,4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0"
+                          Margin="0,0,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Линейная:" Grid.Column="0" VerticalAlignment="Center" />
+                        <TextBlock x:Name="LinearResultText"
+                                   Grid.Column="1"
+                                   Margin="4,0"
+                                   Text="Не рассчитано" />
+                        <Label Content="R²:" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
+                        <TextBlock x:Name="LinearRSquaredText"
+                                   Grid.Column="3"
+                                   Margin="4,0"
+                                   Text="-" />
+                    </Grid>
+
+                    <Grid Grid.Row="1"
+                          Margin="0,0,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Квадратичная:" Grid.Column="0" VerticalAlignment="Center" />
+                        <TextBlock x:Name="QuadraticResultText"
+                                   Grid.Column="1"
+                                   Margin="4,0"
+                                   Text="Не рассчитано" />
+                        <Label Content="R²:" Grid.Column="2" VerticalAlignment="Center" Margin="8,0,0,0" />
+                        <TextBlock x:Name="QuadraticRSquaredText"
+                                   Grid.Column="3"
+                                   Margin="4,0"
+                                   Text="-" />
+                    </Grid>
+
+                    <StackPanel Grid.Row="2"
+                                Orientation="Horizontal">
+                        <CheckBox x:Name="ShowPointsCheckBox"
+                                  Content="Показывать точки"
+                                  Margin="0,0,8,0"
+                                  IsChecked="True" />
+                        <CheckBox x:Name="ShowLinearCheckBox"
+                                  Content="Линейная аппроксимация"
+                                  Margin="0,0,8,0"
+                                  IsChecked="True" />
+                        <CheckBox x:Name="ShowQuadraticCheckBox"
+                                  Content="Квадратичная аппроксимация"
+                                  IsChecked="True" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="ChartContainer"
+                      Margin="0,4,0,0" />
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="2"
+                   Text="МНК аппроксимация: загрузите точки или сгенерируйте их, затем выполните расчет."
+                   Foreground="Gray"
+                   HorizontalAlignment="Right" />
+    </Grid>
+</Window>
+

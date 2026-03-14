@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -35,6 +35,14 @@ namespace MultiWindowApp
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void TestFunctionButton_Click(object sender, RoutedEventArgs e)
+        {
+            FunctionTextBox.Text = "pow(x,2) - 4";
+            TextBoxA.Text = "-5";
+            TextBoxB.Text = "5";
+            TextBoxEpsilon.Text = "0.001";
         }
 
 

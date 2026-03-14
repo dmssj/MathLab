@@ -1,0 +1,185 @@
+<Window x:Class="MultiWindowApp.IntegralCalculator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Вычисление определенного интеграла"
+        Height="600"
+        Width="950"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,6">
+            <Label Content="f(x)=" VerticalAlignment="Center" />
+            <TextBox x:Name="FunctionTextBox"
+                     Width="220"
+                     Margin="5,0" />
+
+            <Label Content="a" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="ATextBox"
+                     Width="60"
+                     Margin="5,0" />
+
+            <Label Content="b" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="BTextBox"
+                     Width="60"
+                     Margin="5,0" />
+
+            <Label Content="ε" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="EpsilonTextBox"
+                     Width="60"
+                     Margin="5,0" />
+
+            <Label Content="n" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBox x:Name="NTextBox"
+                     Width="60"
+                     Margin="5,0" />
+
+            <CheckBox x:Name="AutoNCheckBox"
+                      Content="авто n"
+                      Margin="10,0,0,0"
+                      Checked="AutoNCheckBox_Checked"
+                      Unchecked="AutoNCheckBox_Unchecked" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,6">
+            <CheckBox x:Name="RectLeftCheckBox"
+                      Content="Прямоугольники (левый)"
+                      Margin="0,0,10,0" />
+            <CheckBox x:Name="RectMiddleCheckBox"
+                      Content="Прямоугольники (средний)"
+                      Margin="0,0,10,0" />
+            <CheckBox x:Name="RectRightCheckBox"
+                      Content="Прямоугольники (правый)"
+                      Margin="0,0,10,0" />
+            <CheckBox x:Name="TrapezoidalCheckBox"
+                      Content="Метод трапеций"
+                      Margin="0,0,10,0" />
+            <CheckBox x:Name="SimpsonCheckBox"
+                      Content="Метод Симпсона"
+                      Margin="0,0,10,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,6">
+            <Button x:Name="CalculateButton"
+                    Content="Рассчитать интеграл"
+                    Width="160"
+                    Margin="0,0,10,0"
+                    Click="CalculateButton_Click" />
+            <Button x:Name="StopCalculationButton"
+                    Content="Остановить"
+                    Width="120"
+                    Margin="0,0,10,0"
+                    Click="StopCalculationButton_Click" />
+            <Button x:Name="ClearButton"
+                    Content="Сброс"
+                    Width="90"
+                    Margin="0,0,10,0"
+                    Click="ClearButton_Click" />
+            <Button x:Name="ExitButton"
+                    Content="Закрыть"
+                    Width="90"
+                    Margin="0,0,10,0"
+                    Click="ExitButton_Click" />
+            <Button x:Name="GenerateTestFunction"
+                    Content="Тестовая функция"
+                    Width="140"
+                    Margin="0,0,10,0"
+                    Click="GenerateTestFunction_Click" />
+        </StackPanel>
+
+        <Grid Grid.Row="3"
+              Margin="0,0,0,6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <TextBlock x:Name="StatusText"
+                           Text="Готов к работе"
+                           Foreground="Green"
+                           Margin="0,0,10,0" />
+                <ProgressBar x:Name="CalculationProgress"
+                             Width="200"
+                             Height="12"
+                             Visibility="Collapsed"
+                             Margin="0,0,10,0" />
+                <TextBlock x:Name="ProgressText" />
+            </StackPanel>
+
+            <Grid Grid.Row="1"
+                  Margin="0,4,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ScrollViewer Grid.Column="0"
+                              Margin="0,0,4,0"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="ResultsPanel" />
+                </ScrollViewer>
+
+                <ScrollViewer Grid.Column="1"
+                              Margin="4,0,0,0"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="HistoryPanel" />
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="4"
+              Margin="0,4,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0"
+                  Margin="0,0,4,0">
+                <Canvas x:Name="PlotCanvas"
+                        Background="WhiteSmoke" />
+                <TextBlock x:Name="NoPlotText"
+                           Text="График будет показан после расчета"
+                           Foreground="Gray"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Grid.Column="1"
+                  Margin="4,0,0,0">
+                <TextBox x:Name="LogTextBox"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto"
+                         AcceptsReturn="True"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         FontFamily="Consolas" />
+            </Grid>
+        </Grid>
+
+        <TextBlock Grid.Row="5"
+                   Text="Результаты и визуализация интегрирования"
+                   Foreground="DarkGray"
+                   HorizontalAlignment="Right" />
+    </Grid>
+</Window>
+

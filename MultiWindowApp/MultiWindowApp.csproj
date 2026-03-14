@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -75,6 +75,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NewtonMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CoordinateDescentMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IntegralCalculator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LeastSquaresMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SortingAlgorithmsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GoldenSectionMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LinearSystemSolver.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -89,6 +113,24 @@
     </Compile>
     <Compile Include="DichotomyMethod.xaml.cs">
       <DependentUpon>DichotomyMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewtonMethod.xaml.cs">
+      <DependentUpon>NewtonMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CoordinateDescentMethod.xaml.cs">
+      <DependentUpon>CoordinateDescentMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IntegralCalculator.xaml.cs">
+      <DependentUpon>IntegralCalculator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LeastSquaresMethod.xaml.cs">
+      <DependentUpon>LeastSquaresMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SortingAlgorithmsWindow.xaml.cs">
+      <DependentUpon>SortingAlgorithmsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GoldenSectionMethod.xaml.cs">
+      <DependentUpon>GoldenSectionMethod.xaml</DependentUpon>
     </Compile>
     <Compile Include="LinearSystemSolver.xaml.cs">
       <DependentUpon>LinearSystemSolver.xaml</DependentUpon>
