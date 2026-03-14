@@ -40,8 +40,8 @@ namespace MultiWindowApp
         private void TestFunctionButton_Click(object sender, RoutedEventArgs e)
         {
             FunctionTextBox.Text = "pow(x,2) - 4";
-            TextBoxA.Text = "-5";
-            TextBoxB.Text = "5";
+            TextBoxA.Text = "0";
+            TextBoxB.Text = "3";
             TextBoxEpsilon.Text = "0.001";
         }
 

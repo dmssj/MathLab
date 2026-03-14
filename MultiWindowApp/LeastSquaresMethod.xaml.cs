@@ -103,6 +103,7 @@ namespace MultiWindowApp
 
         private void WireUpEvents()
         {
+            LoadExcelButton.Click += LoadExcelButton_Click;
             GenerateDataButton.Click += GenerateDataButton_Click;
             ClearButton.Click += ClearButton_Click;
             CalculateButton.Click += CalculateButton_Click;
@@ -153,7 +154,154 @@ namespace MultiWindowApp
             Close();
         }
 
+        private void LoadExcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "CSV файлы (*.csv)|*.csv|Текстовые файлы (*.txt)|*.txt|Excel файлы (*.xlsx;*.xls)|*.xlsx;*.xls|Все файлы (*.*)|*.*",
+                    Title = "Выберите файл с данными",
+                    DefaultExt = ".csv",
+                    Multiselect = false
+                };
 
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    LoadDataFromFile(openFileDialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке файла: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void LoadDataFromFile(string filePath)
+        {
+            try
+            {
+                string extension = Path.GetExtension(filePath).ToLower();
+
+                if (extension == ".csv" || extension == ".txt")
+                {
+                    LoadFromCsvFile(filePath);
+                }
+                else if (extension == ".xlsx" || extension == ".xls")
+                {
+                    MessageBox.Show("Для загрузки Excel файлов используйте форматы CSV или TXT. Пожалуйста, экспортируйте данные из Excel в CSV формат.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Неподдерживаемый формат файла. Используйте CSV или TXT.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка чтения файла: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void LoadFromCsvFile(string filePath)
+        {
+            try
+            {
+                _dataPoints.Clear();
+
+                string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
+                int index = 1;
+                int lineNumber = 0;
+
+                foreach (string line in lines)
+                {
+                    lineNumber++;
+
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    if (line.ToLower().Contains("x") && line.ToLower().Contains("y") && lineNumber == 1)
+                        continue;
+
+                    string[] parts = line.Split(new char[] { ',', ';', '\t', '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length >= 2)
+                    {
+                        if (double.TryParse(parts[0].Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double x) &&
+                            double.TryParse(parts[1].Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double y))
+                        {
+                            _dataPoints.Add(new DataPointLocal
+                            {
+                                Index = index++,
+                                X = Math.Round(x, 3),
+                                Y = Math.Round(y, 3)
+                            });
+                        }
+                    }
+                }
+
+                DataGridPoints.Items.Refresh();
+
+                if (_dataPoints.Count == 0)
+                {
+                    MessageBox.Show("Не удалось загрузить данные из файла. Проверьте формат файла.\nОжидаемый формат: X,Y в каждой строке", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else
+                {
+                    MessageBox.Show($"Успешно загружено {_dataPoints.Count} точек из файла", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка чтения файла: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ExportToCsvButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "CSV файлы (*.csv)|*.csv|Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*",
+                    Title = "Экспорт данных",
+                    DefaultExt = ".csv",
+                    FileName = $"least_squares_data_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (var writer = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
+                    {
+                        writer.WriteLine("X,Y");
+
+                        foreach (var point in _dataPoints)
+                        {
+                            writer.WriteLine($"{point.X.ToString(CultureInfo.InvariantCulture)},{point.Y.ToString(CultureInfo.InvariantCulture)}");
+                        }
+
+                        if (!string.IsNullOrEmpty(LinearResultText.Text) && LinearResultText.Text != "Не рассчитано")
+                        {
+                            writer.WriteLine();
+                            writer.WriteLine("# Результаты метода наименьших квадратов:");
+                            writer.WriteLine($"# Линейная аппроксимация: {LinearResultText.Text}");
+                            writer.WriteLine($"# R² = {LinearRSquaredText.Text}");
+
+                            if (!string.IsNullOrEmpty(QuadraticResultText.Text) && QuadraticResultText.Text != "Не рассчитано")
+                            {
+                                writer.WriteLine($"# Квадратичная аппроксимация: {QuadraticResultText.Text}");
+                                writer.WriteLine($"# R² = {QuadraticRSquaredText.Text}");
+                            }
+                        }
+                    }
+
+                    MessageBox.Show($"Данные успешно экспортированы в файл:\n{saveFileDialog.FileName}", "Экспорт завершен", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при экспорте: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         private void GenerateDataButton_Click(object sender, RoutedEventArgs e)
         {
             try

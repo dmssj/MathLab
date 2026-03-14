@@ -360,15 +360,23 @@ namespace MultiWindowApp
 
         private async Task BogoSortAsync(int[] data, bool ascending, Canvas canvas, Brush brush)
         {
-            int maxAttempts = 2000;
+            if (data.Length > 8)
+            {
+                StatusTextBlock.Text = "BOGO-сортировка отключена для массивов больше 8 элементов.";
+                DrawArray(canvas, data, brush);
+                return;
+            }
+
+            int maxAttempts = 500;
             int attempts = 0;
             while (!IsSorted(data, ascending) && attempts < maxAttempts)
             {
                 Shuffle(data);
                 attempts++;
                 DrawArray(canvas, data, brush);
-                await Task.Delay(20);
+                await Task.Delay(10);
             }
+
             DrawArray(canvas, data, brush);
         }
 
