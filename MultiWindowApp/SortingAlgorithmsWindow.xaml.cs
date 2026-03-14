@@ -123,7 +123,7 @@ namespace MultiWindowApp
 
                     if (values.Count == 0)
                     {
-                        MessageBox.Show("Не удалось распознать числа. Ожидается один столбец целых чисел.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Не удалось распознать числа.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
@@ -187,6 +187,33 @@ namespace MultiWindowApp
             {
                 MessageBox.Show("Выберите хотя бы один алгоритм сортировки.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
+
+            if (BogoCheckBox.IsChecked == true && baseValues.Count > 10)
+            {
+                var result = MessageBox.Show(
+                    $"В таблице {baseValues.Count} элементов. BOGO работает только с массивами до 10 элементов.\n\n" +
+                    $"Сгенерировать новый массив из 8 элементов?",
+                    "BOGO — слишком много элементов",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    int maxValue;
+                    if (!int.TryParse(MaxValueTextBox.Text, out maxValue) || maxValue <= 0)
+                        maxValue = 100;
+
+                    _items.Clear();
+                    for (int i = 0; i < 8; i++)
+                        _items.Add(new NumberItem { Value = _random.Next(1, maxValue + 1) });
+
+                    CountTextBox.Text = "8";
+                    baseValues = _items.Select(x => x.Value).ToList();
+                }
+                else
+                {
+                    return;
+                }
             }
 
             bool ascending = AscendingRadioButton.IsChecked == true;
@@ -360,24 +387,34 @@ namespace MultiWindowApp
 
         private async Task BogoSortAsync(int[] data, bool ascending, Canvas canvas, Brush brush)
         {
-            if (data.Length > 8)
-            {
-                StatusTextBlock.Text = "BOGO-сортировка отключена для массивов больше 8 элементов.";
-                DrawArray(canvas, data, brush);
-                return;
-            }
+            DrawArray(canvas, data, brush);
+            await Task.Delay(50);
 
-            int maxAttempts = 500;
+            Stopwatch timeout = Stopwatch.StartNew();
+            long maxTimeMs = 120000;
             int attempts = 0;
-            while (!IsSorted(data, ascending) && attempts < maxAttempts)
+
+            while (!IsSorted(data, ascending))
             {
                 Shuffle(data);
                 attempts++;
-                DrawArray(canvas, data, brush);
-                await Task.Delay(10);
+
+                if (attempts % 10 == 0)
+                {
+                    DrawArray(canvas, data, brush);
+                    await Task.Delay(5);
+                }
+
+                if (timeout.ElapsedMilliseconds > maxTimeMs)
+                {
+                    DrawArray(canvas, data, brush);
+                    StatusTextBlock.Text = $"BOGO: таймаут 2 мин, попыток: {attempts}";
+                    return;
+                }
             }
 
             DrawArray(canvas, data, brush);
+            StatusTextBlock.Text = $"BOGO: отсортировано за {attempts} попыток";
         }
 
         private void Shuffle(int[] data)
@@ -533,4 +570,3 @@ namespace MultiWindowApp
         }
     }
 }
-
