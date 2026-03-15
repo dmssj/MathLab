@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Вычисление определенного интеграла"
-        Height="600"
-        Width="950"
-        WindowStartupLocation="CenterScreen">
+        WindowState="Maximized"
+        Style="{StaticResource BaseWindowStyle}">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -80,26 +79,31 @@
                     Content="Рассчитать интеграл"
                     Width="160"
                     Margin="0,0,10,0"
+                    Style="{StaticResource PrimaryButtonStyle}"
                     Click="CalculateButton_Click" />
             <Button x:Name="StopCalculationButton"
                     Content="Остановить"
                     Width="120"
                     Margin="0,0,10,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
                     Click="StopCalculationButton_Click" />
             <Button x:Name="ClearButton"
                     Content="Сброс"
                     Width="90"
                     Margin="0,0,10,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
                     Click="ClearButton_Click" />
             <Button x:Name="ExitButton"
                     Content="Закрыть"
                     Width="90"
                     Margin="0,0,10,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
                     Click="ExitButton_Click" />
             <Button x:Name="GenerateTestFunction"
                     Content="Тестовая функция"
                     Width="140"
                     Margin="0,0,10,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
                     Click="GenerateTestFunction_Click" />
         </StackPanel>
 
@@ -178,7 +182,7 @@
 
         <TextBlock Grid.Row="5"
                    Text="Результаты и визуализация интегрирования"
-                   Foreground="DarkGray"
+                   Style="{StaticResource HintTextStyle}"
                    HorizontalAlignment="Right" />
     </Grid>
 </Window>

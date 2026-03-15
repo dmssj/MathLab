@@ -1,10 +1,12 @@
 <Window x:Class="MultiWindowApp.LinearSystemSolver"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             Height="400" Width="780">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Решение СЛАУ"
+        WindowState="Maximized"
+        Style="{StaticResource BaseWindowStyle}">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,9 +18,19 @@
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
             <Label Content="Размер матрицы:" VerticalAlignment="Center"/>
             <TextBox x:Name="SizeTextBox" Width="50" Margin="5"/>
-            <Button x:Name="CreateMatrixButton" Content="Создать матрицу" Click="CreateMatrixButton_Click"/>
-            <Button x:Name="RandomGenerationButton" Content="Случайные данные" Margin="10,0,0,0" Click="RandomGenerationButton_Click"/>
-            <Button Content="Тестовая функция" Margin="10,0,0,0" Click="TestFunctionButton_Click"/>
+            <Button x:Name="CreateMatrixButton"
+                    Content="Создать матрицу"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Click="CreateMatrixButton_Click"/>
+            <Button x:Name="RandomGenerationButton"
+                    Content="Случайные данные"
+                    Margin="10,0,0,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Click="RandomGenerationButton_Click"/>
+            <Button Content="Тестовая функция"
+                    Margin="10,0,0,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Click="TestFunctionButton_Click"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -33,9 +45,18 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
-            <Button x:Name="GaussMethodButton" Content="Метод Гаусса" Click="GaussMethodButton_Click" Margin="0,0,5,0"/>
-            <Button x:Name="JordanGaussMethodButton" Content="Метод Жордана-Гаусса" Click="JordanGaussMethodButton_Click" Margin="5,0,5,0"/>
-            <Button x:Name="CramerMethodButton" Content="Метод Крамера" Click="CramerMethodButton_Click" Margin="5,0,5,0"/>
+            <Button x:Name="GaussMethodButton"
+                    Content="Метод Гаусса"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Click="GaussMethodButton_Click"/>
+            <Button x:Name="JordanGaussMethodButton"
+                    Content="Метод Жордана-Гаусса"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Click="JordanGaussMethodButton_Click"/>
+            <Button x:Name="CramerMethodButton"
+                    Content="Метод Крамера"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Click="CramerMethodButton_Click"/>
             <TextBlock x:Name="TimeInfoTextBlock" VerticalAlignment="Center" Margin="10,0,0,0"/>
         </StackPanel>
 

@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Метод наименьших квадратов"
-        Height="550"
-        Width="950"
-        WindowStartupLocation="CenterScreen">
+        WindowState="Maximized"
+        Style="{StaticResource BaseWindowStyle}">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,20 +28,21 @@
                             Margin="0,0,0,4">
                     <Button x:Name="LoadExcelButton"
                             Content="Загрузить из CSV/Excel"
-                            Margin="0,0,6,0"
-                            Width="160" />
+                            Width="160"
+                            Style="{StaticResource PrimaryButtonStyle}" />
                     <Button x:Name="ExportToCsvButton"
                             Content="Экспорт в CSV"
-                            Margin="0,0,6,0"
                             Width="120"
+                            Style="{StaticResource SecondaryButtonStyle}"
                             Click="ExportToCsvButton_Click" />
                     <Button x:Name="GenerateDataButton"
                             Content="Тестовая функция"
-                            Margin="0,0,6,0"
-                            Width="150" />
+                            Width="150"
+                            Style="{StaticResource SecondaryButtonStyle}" />
                     <Button x:Name="ClearButton"
                             Content="Очистить"
-                            Width="90" />
+                            Width="90"
+                            Style="{StaticResource SecondaryButtonStyle}" />
                 </StackPanel>
 
                 <Grid Margin="0,0,0,4">
@@ -96,7 +96,6 @@
 
                 <DataGrid x:Name="DataGridPoints"
                           AutoGenerateColumns="True"
-                          Height="260"
                           CanUserAddRows="True"
                           CanUserDeleteRows="True"
                           Margin="0,2,0,0" />
@@ -109,10 +108,11 @@
                     <Button x:Name="CalculateButton"
                             Content="Рассчитать аппроксимацию"
                             Width="180"
-                            Margin="0,0,6,0" />
+                            Style="{StaticResource PrimaryButtonStyle}" />
                     <Button x:Name="BackButton"
                             Content="Назад"
-                            Width="90" />
+                            Width="90"
+                            Style="{StaticResource SecondaryButtonStyle}" />
                 </StackPanel>
 
                 <Grid Margin="0,0,0,4">

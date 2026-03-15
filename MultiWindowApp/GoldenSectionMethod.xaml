@@ -6,9 +6,8 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="Метод золотого сечения"
-        Height="450"
-        Width="800"
-        WindowStartupLocation="CenterScreen">
+        WindowState="Maximized"
+        Style="{StaticResource BaseWindowStyle}">
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -46,9 +45,11 @@
             <Button x:Name="CalculateButton"
                     Content="Вычислить"
                     Margin="10,0"
+                    Style="{StaticResource PrimaryButtonStyle}"
                     Click="CalculateButton_Click"/>
             <Button Content="Тестовая функция"
                     Margin="10,0,0,0"
+                    Style="{StaticResource SecondaryButtonStyle}"
                     Click="TestFunctionButton_Click"/>
         </StackPanel>
 
@@ -89,6 +90,7 @@
                     HorizontalAlignment="Right">
             <Button Content="Назад"
                     Width="80"
+                    Style="{StaticResource SecondaryButtonStyle}"
                     Click="BackButton_Click"/>
         </StackPanel>
 
